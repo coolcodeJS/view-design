@@ -39,6 +39,8 @@
     "recoil": "^0.7.6"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
     "@trivago/prettier-plugin-sort-imports": "^3.3.0",
     "@types/node": "^18.8.4",
     "@types/react": "^18.0.21",
