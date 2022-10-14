@@ -9,18 +9,17 @@ const RulerWrap = styled(PositionWrap)({
   height: '100%',
 });
 
-const LineWrap = styled(PositionWrap)({});
-
 const HRulerWrap = styled(PositionWrap)({
   height: '21px',
 });
+const VRulerWrap = styled(PositionWrap)({
+  width: '21px',
+});
 
 const Indicator = styled(PositionWrap)({
-  position: 'absolute',
   top: 0,
-  height: '100vw',
   border: '1px solid red',
   pointerEvents: 'none',
 });
 
-export { RulerWrap, Indicator, HRulerWrap, LineWrap };
+export { RulerWrap, Indicator, HRulerWrap, VRulerWrap };

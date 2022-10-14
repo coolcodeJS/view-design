@@ -1,89 +1,177 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
-import { Indicator, RulerWrap, LineWrap, HRulerWrap } from './styled';
+import { useState } from 'react';
 
-const LINE_SPACE = 5;
-const STAGE_WIDTH = 1000;
-const STAGE_HEIGHT = 21;
-const LONG_LINE = 18;
-const MID_LINE = 13;
-const SHORT_LINE = 10;
+import RulerItem, { ItemDirection, MouseData } from './components/RulerItem/RulerItem';
+import RulerLines from './components/RulerLines/RulerLine';
+import { HRulerWrap, Indicator, RulerWrap, VRulerWrap } from './styled';
 
 interface LinInfo {
   show: boolean;
-  x: number;
+  value: number;
+  lineList: number[] | [];
+}
+
+interface RulerItemInfo {
+  [ItemDirection.HORIZONTAL]: LinInfo;
+  [ItemDirection.VERTICAL]: LinInfo;
 }
 
 const Ruler = () => {
-  const [lineInfo, setLineInfo] = useState<LinInfo>({
-    show: false,
-    x: 0,
+  const [rulerItemInfo, setRulerItemInfo] = useState<RulerItemInfo>({
+    [ItemDirection.HORIZONTAL]: {
+      show: false,
+      value: 0,
+      lineList: [],
+    },
+    [ItemDirection.VERTICAL]: {
+      show: false,
+      value: 0,
+      lineList: [],
+    },
   });
-  const [lineList, setLineList] = useState<number[] | []>([]);
-  const addLine = () => {
-    setLineList([...lineList, lineInfo.x]);
+  const handleMouseEnter = (data: MouseData) => {
+    const { direction, x, y } = data;
+    if (direction === ItemDirection.HORIZONTAL) {
+      setRulerItemInfo({
+        ...rulerItemInfo,
+        [ItemDirection.HORIZONTAL]: {
+          show: true,
+          value: x,
+          lineList: rulerItemInfo[ItemDirection.HORIZONTAL].lineList,
+        },
+      });
+    } else {
+      setRulerItemInfo({
+        ...rulerItemInfo,
+        [ItemDirection.VERTICAL]: {
+          show: true,
+          value: y,
+          lineList: rulerItemInfo[ItemDirection.VERTICAL].lineList,
+        },
+      });
+    }
   };
-  const renderRuleCanvas = () => {
-    const lineCount = Math.floor(STAGE_WIDTH / LINE_SPACE);
-    const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = '#000';
-    for (let i = 0; i < lineCount; i++) {
-      ctx.beginPath();
-      ctx.moveTo(i * LINE_SPACE, 0);
-      ctx.fillStyle = '#000';
-      ctx.font = '10px serif';
-      ctx.lineTo(i * LINE_SPACE, i % 10 === 0 ? LONG_LINE : i % 5 === 0 ? MID_LINE : SHORT_LINE);
-      if (i % 10 === 0) {
-        ctx.fillText(i * LINE_SPACE * 2 + '', i * LINE_SPACE + 2, LONG_LINE + 2);
-      }
-      ctx.stroke();
-      ctx.closePath();
+  const handleMouseLeave = (data: MouseData) => {
+    const { direction } = data;
+    if (direction === ItemDirection.HORIZONTAL) {
+      setRulerItemInfo({
+        ...rulerItemInfo,
+        [ItemDirection.HORIZONTAL]: {
+          show: false,
+          value: -1,
+          lineList: rulerItemInfo[ItemDirection.HORIZONTAL].lineList,
+        },
+      });
+    } else {
+      setRulerItemInfo({
+        ...rulerItemInfo,
+        [ItemDirection.VERTICAL]: {
+          show: false,
+          value: -1,
+          lineList: rulerItemInfo[ItemDirection.VERTICAL].lineList,
+        },
+      });
     }
   };
 
-  const line = (e: React.MouseEvent) => {
-    setLineInfo({
-      show: true,
-      x: e.clientX,
-    });
+  const handleMouseMove = (data: MouseData) => {
+    const { direction, x, y } = data;
+    if (direction === ItemDirection.HORIZONTAL) {
+      setRulerItemInfo({
+        ...rulerItemInfo,
+        [ItemDirection.HORIZONTAL]: {
+          show: true,
+          value: x,
+          lineList: rulerItemInfo[ItemDirection.HORIZONTAL].lineList,
+        },
+      });
+    } else {
+      setRulerItemInfo({
+        ...rulerItemInfo,
+        [ItemDirection.VERTICAL]: {
+          show: true,
+          value: y - 65,
+          lineList: rulerItemInfo[ItemDirection.VERTICAL].lineList,
+        },
+      });
+    }
   };
 
-  useEffect(() => {
-    renderRuleCanvas();
-  }, []);
+  const handleClick = (data: MouseData) => {
+    const { direction, x, y } = data;
+    if (direction === ItemDirection.HORIZONTAL) {
+      setRulerItemInfo({
+        ...rulerItemInfo,
+        [ItemDirection.HORIZONTAL]: {
+          show: true,
+          value: x,
+          lineList: [...rulerItemInfo[ItemDirection.HORIZONTAL].lineList, x],
+        },
+      });
+    } else {
+      setRulerItemInfo({
+        ...rulerItemInfo,
+        [ItemDirection.VERTICAL]: {
+          show: true,
+          value: y - 65,
+          lineList: [...rulerItemInfo[ItemDirection.VERTICAL].lineList, y - 64],
+        },
+      });
+    }
+  };
+
+  const indicatorStyles = () => {
+    const styles = {} as React.CSSProperties;
+    if (rulerItemInfo[ItemDirection.HORIZONTAL].show) {
+      styles['left'] = rulerItemInfo[ItemDirection.HORIZONTAL].value;
+      styles['height'] = '100%';
+    } else {
+      styles['top'] = rulerItemInfo[ItemDirection.VERTICAL].value;
+      styles['width'] = '100%';
+    }
+    return {
+      display:
+        rulerItemInfo[ItemDirection.HORIZONTAL].show || rulerItemInfo[ItemDirection.VERTICAL].show
+          ? 'block'
+          : 'none',
+      ...styles,
+    };
+  };
 
   return (
     <RulerWrap>
-      <HRulerWrap id="rule-h">
-        <canvas
-          id="canvas"
-          width={STAGE_WIDTH}
-          onDoubleClick={() => addLine()}
-          onMouseMove={line}
-          onMouseEnter={() => {
-            setLineInfo({
-              ...lineInfo,
-              show: true,
-            });
-          }}
-          onMouseLeave={() => {
-            setLineInfo({
-              ...lineInfo,
-              show: false,
-            });
-          }}
-          height={STAGE_HEIGHT}
-        ></canvas>
+      <HRulerWrap>
+        <RulerItem
+          size={1000}
+          direction={ItemDirection.HORIZONTAL}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onMouseMove={handleMouseMove}
+          onClick={handleClick}
+        ></RulerItem>
+        <RulerLines
+          direction={ItemDirection.HORIZONTAL}
+          lineList={rulerItemInfo[ItemDirection.HORIZONTAL].lineList}
+        ></RulerLines>
       </HRulerWrap>
-      <LineWrap>
-        {lineList.map((item, index) => {
-          return <Indicator key={index} style={{ left: item }}></Indicator>;
-        })}
-      </LineWrap>
+      <VRulerWrap>
+        <RulerItem
+          size={1000}
+          direction={ItemDirection.VERTICAL}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onMouseMove={handleMouseMove}
+          onClick={handleClick}
+        ></RulerItem>
+        <RulerLines
+          direction={ItemDirection.VERTICAL}
+          lineList={rulerItemInfo[ItemDirection.VERTICAL].lineList}
+        ></RulerLines>
+      </VRulerWrap>
       <Indicator
-        style={{ display: lineInfo.show ? 'block' : 'none', left: lineInfo.x }}
+        style={{
+          ...indicatorStyles(),
+        }}
       ></Indicator>
     </RulerWrap>
   );

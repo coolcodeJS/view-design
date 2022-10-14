@@ -21,7 +21,7 @@ function Sidebar() {
       onClose={sidebarActions.close}
       onOpen={sidebarActions.open}
       disableBackdropTransition={false}
-      swipeAreaWidth={30}
+      swipeAreaWidth={0}
     >
       <List sx={{ width: 250, pt: (theme) => `${theme.mixins.toolbar.minHeight}px` }}>
         {Object.values(routes)
