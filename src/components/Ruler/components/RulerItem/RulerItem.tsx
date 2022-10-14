@@ -1,7 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 
-import { CanvasWrap } from './styled';
-
 export enum ItemDirection {
   VERTICAL = 'vertical',
   HORIZONTAL = 'horizontal',
@@ -122,7 +120,7 @@ const RulerItem = (props: IProps) => {
   };
 
   return (
-    <CanvasWrap>
+    <>
       <canvas
         ref={canvasRef}
         onDoubleClick={(e) => {
@@ -132,7 +130,7 @@ const RulerItem = (props: IProps) => {
         onMouseEnter={(e) => handleMouseEnter(e)}
         onMouseLeave={(e) => handleMouseLeave(e)}
       ></canvas>
-    </CanvasWrap>
+    </>
   );
 };
 

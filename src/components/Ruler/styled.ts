@@ -9,11 +9,20 @@ const RulerWrap = styled(PositionWrap)({
   height: '100%',
 });
 
-const HRulerWrap = styled(PositionWrap)({
-  height: '21px',
+const HRulerWrap = styled(RulerWrap)({
+  left: '20px',
 });
-const VRulerWrap = styled(PositionWrap)({
-  width: '21px',
+const VRulerWrap = styled(RulerWrap)({
+  top: '20px',
+});
+
+const ShowBtn = styled(PositionWrap)({
+  width: '16px',
+  height: '16px',
+  top: 0,
+  left: 0,
+  backgroundColor: 'rgba(200,0,0)',
+  cursor: 'pointer',
 });
 
 const Indicator = styled(PositionWrap)({
@@ -22,4 +31,4 @@ const Indicator = styled(PositionWrap)({
   pointerEvents: 'none',
 });
 
-export { RulerWrap, Indicator, HRulerWrap, VRulerWrap };
+export { RulerWrap, Indicator, HRulerWrap, VRulerWrap, ShowBtn };
