@@ -4,16 +4,23 @@ const PositionWrap = styled('div')({
   position: 'absolute',
 });
 
-const RulerWrap = styled(PositionWrap)({
+const RulerLayerWrap = styled(PositionWrap)({
   width: '100%',
   height: '100%',
 });
 
-const HRulerWrap = styled(RulerWrap)({
+const HRulerWrap = styled(PositionWrap)({
   left: '20px',
+  right: 0,
+  bottom: 0,
+  top: 0,
 });
-const VRulerWrap = styled(RulerWrap)({
+
+const VRulerWrap = styled(PositionWrap)({
   top: '20px',
+  right: 0,
+  bottom: 0,
+  left: 0,
 });
 
 const ShowBtn = styled(PositionWrap)({
@@ -31,4 +38,15 @@ const Indicator = styled(PositionWrap)({
   pointerEvents: 'none',
 });
 
-export { RulerWrap, Indicator, HRulerWrap, VRulerWrap, ShowBtn };
+const RulerWrap = styled(RulerLayerWrap)({
+  zIndex: 10,
+});
+
+const ChildrenWrap = styled(PositionWrap)({
+  top: '21px',
+  left: '21px',
+  right: 0,
+  bottom: 0,
+});
+
+export { RulerWrap, RulerLayerWrap, Indicator, HRulerWrap, VRulerWrap, ShowBtn, ChildrenWrap };

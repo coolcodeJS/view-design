@@ -3,7 +3,15 @@ import { useState } from 'react';
 
 import RulerItem, { ItemDirection, MouseData } from './components/RulerItem/RulerItem';
 import RulerLines from './components/RulerLines/RulerLine';
-import { HRulerWrap, Indicator, RulerWrap, ShowBtn, VRulerWrap } from './styled';
+import {
+  ChildrenWrap,
+  HRulerWrap,
+  Indicator,
+  RulerLayerWrap,
+  RulerWrap,
+  ShowBtn,
+  VRulerWrap,
+} from './styled';
 
 interface LinInfo {
   show: boolean;
@@ -16,7 +24,12 @@ interface RulerItemInfo {
   [ItemDirection.VERTICAL]: LinInfo;
 }
 
-const Ruler = () => {
+interface IProps {
+  children?: React.ReactNode;
+}
+
+const Ruler = (props: IProps) => {
+  const { children } = props;
   const [rulerItemInfo, setRulerItemInfo] = useState<RulerItemInfo>({
     [ItemDirection.HORIZONTAL]: {
       show: false,
@@ -142,50 +155,53 @@ const Ruler = () => {
   };
 
   return (
-    <RulerWrap>
-      <HRulerWrap>
-        <RulerItem
-          size={1000}
-          direction={ItemDirection.HORIZONTAL}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          onMouseMove={handleMouseMove}
-          onClick={handleClick}
-        ></RulerItem>
-        {showLines ? (
-          <RulerLines
+    <RulerLayerWrap>
+      <RulerWrap>
+        <HRulerWrap>
+          <RulerItem
+            size={1000}
             direction={ItemDirection.HORIZONTAL}
-            lineList={rulerItemInfo[ItemDirection.HORIZONTAL].lineList}
-          ></RulerLines>
-        ) : null}
-      </HRulerWrap>
-      <VRulerWrap>
-        <RulerItem
-          size={1000}
-          direction={ItemDirection.VERTICAL}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          onMouseMove={handleMouseMove}
-          onClick={handleClick}
-        ></RulerItem>
-        {showLines ? (
-          <RulerLines
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onMouseMove={handleMouseMove}
+            onClick={handleClick}
+          ></RulerItem>
+          {showLines ? (
+            <RulerLines
+              direction={ItemDirection.HORIZONTAL}
+              lineList={rulerItemInfo[ItemDirection.HORIZONTAL].lineList}
+            ></RulerLines>
+          ) : null}
+        </HRulerWrap>
+        <VRulerWrap>
+          <RulerItem
+            size={1000}
             direction={ItemDirection.VERTICAL}
-            lineList={rulerItemInfo[ItemDirection.VERTICAL].lineList}
-          ></RulerLines>
-        ) : null}
-      </VRulerWrap>
-      <ShowBtn
-        onClick={() => {
-          setShowLines(!showLines);
-        }}
-      ></ShowBtn>
-      <Indicator
-        style={{
-          ...indicatorStyles(),
-        }}
-      ></Indicator>
-    </RulerWrap>
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onMouseMove={handleMouseMove}
+            onClick={handleClick}
+          ></RulerItem>
+          {showLines ? (
+            <RulerLines
+              direction={ItemDirection.VERTICAL}
+              lineList={rulerItemInfo[ItemDirection.VERTICAL].lineList}
+            ></RulerLines>
+          ) : null}
+        </VRulerWrap>
+        <ShowBtn
+          onClick={() => {
+            setShowLines(!showLines);
+          }}
+        ></ShowBtn>
+        <Indicator
+          style={{
+            ...indicatorStyles(),
+          }}
+        ></Indicator>
+      </RulerWrap>
+      <ChildrenWrap>{children}</ChildrenWrap>
+    </RulerLayerWrap>
   );
 };
 

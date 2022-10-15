@@ -1,9 +1,12 @@
 import Ruler from '@/components/Ruler/Ruler';
+import { TestBox } from './styled';
 
 function Page4() {
   return (
     <>
-      <Ruler />
+      <Ruler>
+        <TestBox>测试</TestBox>
+      </Ruler>
     </>
   );
 }

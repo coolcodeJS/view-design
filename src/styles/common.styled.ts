@@ -1,14 +1,16 @@
 import { styled } from '@mui/system';
+import React from 'react';
 
 /**
  * 垂直水平居中的盒子
  * @returns
  */
-const FlexCenterBox = () => {
+const FlexCenterBox = (styles?: React.CSSProperties) => {
   return styled('div')({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    ...styles,
   });
 };
 

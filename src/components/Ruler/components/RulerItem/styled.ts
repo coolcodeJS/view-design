@@ -1,5 +1,7 @@
-import { FlexCenterBox } from '@/styles/common.styled';
+import { styled } from '@mui/system';
 
-const CanvasWrap = FlexCenterBox();
+const Canvas = styled('canvas')({
+  cursor: 'pointer',
+});
 
-export { CanvasWrap };
+export { Canvas };

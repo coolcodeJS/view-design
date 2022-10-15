@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { Canvas } from './styled';
 
 export enum ItemDirection {
   VERTICAL = 'vertical',
@@ -46,7 +47,7 @@ const RulerItem = (props: IProps) => {
       ctx.font = '10px serif';
       ctx.lineTo(i * LINE_SPACE, i % 10 === 0 ? LONG_LINE : i % 5 === 0 ? MID_LINE : SHORT_LINE);
       if (i % 10 === 0) {
-        ctx.fillText(i * LINE_SPACE * 2 + '', i * LINE_SPACE + 2, LONG_LINE + 2);
+        ctx.fillText(i * LINE_SPACE + '', i * LINE_SPACE + 2, LONG_LINE + 2);
       }
       ctx.stroke();
       ctx.closePath();
@@ -69,7 +70,7 @@ const RulerItem = (props: IProps) => {
       ctx.font = '10px serif';
       ctx.lineTo(i % 10 === 0 ? LONG_LINE : i % 5 === 0 ? MID_LINE : SHORT_LINE, i * LINE_SPACE);
       if (i % 10 === 0) {
-        ctx.fillText(i * LINE_SPACE * 2 + '', SHORT_LINE, i * LINE_SPACE + 2);
+        ctx.fillText(i * LINE_SPACE + '', SHORT_LINE, i * LINE_SPACE + 2);
       }
       ctx.stroke();
       ctx.closePath();
@@ -121,7 +122,7 @@ const RulerItem = (props: IProps) => {
 
   return (
     <>
-      <canvas
+      <Canvas
         ref={canvasRef}
         onDoubleClick={(e) => {
           handleClick(e);
@@ -129,7 +130,7 @@ const RulerItem = (props: IProps) => {
         onMouseMove={(e) => handleMouseMove(e)}
         onMouseEnter={(e) => handleMouseEnter(e)}
         onMouseLeave={(e) => handleMouseLeave(e)}
-      ></canvas>
+      ></Canvas>
     </>
   );
 };
