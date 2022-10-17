@@ -1,3 +1,4 @@
+import useWindowClientInfo from '@/hooks/useWindowClientInfo';
 import React from 'react';
 import { useState } from 'react';
 
@@ -12,11 +13,12 @@ import {
   ShowBtn,
   VRulerWrap,
 } from './styled';
+import { LineItem } from './type';
 
 interface LinInfo {
   show: boolean;
   value: number;
-  lineList: number[] | [];
+  lineList: LineItem[];
 }
 
 interface RulerItemInfo {
@@ -45,6 +47,7 @@ const Ruler = (props: IProps) => {
 
   const [showLines, setShowLines] = useState<boolean>(true);
 
+  const { height: clientHeight, width: clientWidth } = useWindowClientInfo();
   const handleMouseEnter = (data: MouseData) => {
     const { direction, x, y } = data;
     if (direction === ItemDirection.HORIZONTAL) {
@@ -67,6 +70,7 @@ const Ruler = (props: IProps) => {
       });
     }
   };
+
   const handleMouseLeave = (data: MouseData) => {
     const { direction } = data;
     if (direction === ItemDirection.HORIZONTAL) {
@@ -121,7 +125,13 @@ const Ruler = (props: IProps) => {
         [ItemDirection.HORIZONTAL]: {
           show: true,
           value: x,
-          lineList: [...rulerItemInfo[ItemDirection.HORIZONTAL].lineList, x - 20],
+          lineList: [
+            ...rulerItemInfo[ItemDirection.HORIZONTAL].lineList,
+            {
+              value: x - 20,
+              direction: ItemDirection.HORIZONTAL,
+            },
+          ],
         },
       });
     } else {
@@ -130,7 +140,13 @@ const Ruler = (props: IProps) => {
         [ItemDirection.VERTICAL]: {
           show: true,
           value: y - 65 - 20,
-          lineList: [...rulerItemInfo[ItemDirection.VERTICAL].lineList, y - 64 - 20],
+          lineList: [
+            ...rulerItemInfo[ItemDirection.VERTICAL].lineList,
+            {
+              value: y - 64 - 20,
+              direction: ItemDirection.VERTICAL,
+            },
+          ],
         },
       });
     }
@@ -140,10 +156,10 @@ const Ruler = (props: IProps) => {
     const styles = {} as React.CSSProperties;
     if (rulerItemInfo[ItemDirection.HORIZONTAL].show) {
       styles['left'] = rulerItemInfo[ItemDirection.HORIZONTAL].value;
-      styles['height'] = '100%';
+      styles['height'] = '100vh';
     } else {
       styles['top'] = rulerItemInfo[ItemDirection.VERTICAL].value + 20;
-      styles['width'] = '100%';
+      styles['width'] = '100vw';
     }
     return {
       display:
@@ -159,7 +175,7 @@ const Ruler = (props: IProps) => {
       <RulerWrap>
         <HRulerWrap>
           <RulerItem
-            size={1000}
+            size={clientWidth - 20}
             direction={ItemDirection.HORIZONTAL}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -167,15 +183,12 @@ const Ruler = (props: IProps) => {
             onClick={handleClick}
           ></RulerItem>
           {showLines ? (
-            <RulerLines
-              direction={ItemDirection.HORIZONTAL}
-              lineList={rulerItemInfo[ItemDirection.HORIZONTAL].lineList}
-            ></RulerLines>
+            <RulerLines lineList={rulerItemInfo[ItemDirection.HORIZONTAL].lineList}></RulerLines>
           ) : null}
         </HRulerWrap>
         <VRulerWrap>
           <RulerItem
-            size={1000}
+            size={clientHeight - 20}
             direction={ItemDirection.VERTICAL}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -183,10 +196,7 @@ const Ruler = (props: IProps) => {
             onClick={handleClick}
           ></RulerItem>
           {showLines ? (
-            <RulerLines
-              direction={ItemDirection.VERTICAL}
-              lineList={rulerItemInfo[ItemDirection.VERTICAL].lineList}
-            ></RulerLines>
+            <RulerLines lineList={rulerItemInfo[ItemDirection.VERTICAL].lineList}></RulerLines>
           ) : null}
         </VRulerWrap>
         <ShowBtn

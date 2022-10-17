@@ -1,33 +1,19 @@
 import React from 'react';
-
-import { Indicator } from '../../styled';
-import { ItemDirection } from '../RulerItem/RulerItem';
+import { LineItem } from '../../type';
+import Line from '../Line/Line';
 import { LineWrap } from './styled';
 
 interface IProps {
-  lineList: number[] | [];
-  direction: ItemDirection.HORIZONTAL | ItemDirection.VERTICAL;
+  lineList: LineItem[];
 }
 
-const RulerLines = (props: IProps) => {
-  const { lineList = [], direction } = props;
-  const indicatorStyles = (value: number) => {
-    const styles = {} as React.CSSProperties;
-    if (direction === ItemDirection.HORIZONTAL) {
-      styles['left'] = value;
-      styles['height'] = '100%';
-    } else {
-      styles['top'] = value;
-      styles['width'] = '100%';
-    }
-    return {
-      ...styles,
-    };
-  };
+const RulerLines: React.FC<IProps> = (props) => {
+  const { lineList = [] } = props;
+
   return (
     <LineWrap>
-      {lineList.map((item, index) => {
-        return <Indicator key={index} style={{ ...indicatorStyles(item) }}></Indicator>;
+      {lineList.map((item: LineItem, index) => {
+        return <Line key={index} {...item}></Line>;
       })}
     </LineWrap>
   );

@@ -11,16 +11,10 @@ const RulerLayerWrap = styled(PositionWrap)({
 
 const HRulerWrap = styled(PositionWrap)({
   left: '20px',
-  right: 0,
-  bottom: 0,
-  top: 0,
 });
 
 const VRulerWrap = styled(PositionWrap)({
   top: '20px',
-  right: 0,
-  bottom: 0,
-  left: 0,
 });
 
 const ShowBtn = styled(PositionWrap)({
@@ -38,15 +32,13 @@ const Indicator = styled(PositionWrap)({
   pointerEvents: 'none',
 });
 
-const RulerWrap = styled(RulerLayerWrap)({
+const RulerWrap = styled(PositionWrap)({
   zIndex: 10,
 });
 
 const ChildrenWrap = styled(PositionWrap)({
   top: '21px',
   left: '21px',
-  right: 0,
-  bottom: 0,
 });
 
 export { RulerWrap, RulerLayerWrap, Indicator, HRulerWrap, VRulerWrap, ShowBtn, ChildrenWrap };

@@ -20,14 +20,14 @@ interface IProps {
   onMouseMove?: (data: MouseData) => void;
   onMouseLeave?: (data: MouseData) => void;
 }
-const LINE_SPACE = 5;
+const LINE_SPACE = 10;
 const STAGE_WIDTH = 21;
 const LONG_LINE = 18;
 const MID_LINE = 13;
 const SHORT_LINE = 10;
 const LINE_COLOR = '#000';
 
-const RulerItem = (props: IProps) => {
+const RulerItem: React.FC<IProps> = (props) => {
   const { direction, onClick, size, onMouseEnter, onMouseMove, onMouseLeave } = props;
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -64,16 +64,20 @@ const RulerItem = (props: IProps) => {
     ctx.lineWidth = 1;
     ctx.strokeStyle = LINE_COLOR;
     for (let i = 0; i < lineCount; i++) {
+      ctx.save();
       ctx.beginPath();
       ctx.moveTo(0, i * LINE_SPACE);
       ctx.fillStyle = LINE_COLOR;
       ctx.font = '10px serif';
       ctx.lineTo(i % 10 === 0 ? LONG_LINE : i % 5 === 0 ? MID_LINE : SHORT_LINE, i * LINE_SPACE);
       if (i % 10 === 0) {
-        ctx.fillText(i * LINE_SPACE + '', SHORT_LINE, i * LINE_SPACE + 2);
+        ctx.translate(SHORT_LINE + 2, i * LINE_SPACE + 2);
+        ctx.rotate((Math.PI / 180) * 90);
+        ctx.fillText(i * LINE_SPACE + '', 0, 0);
       }
       ctx.stroke();
       ctx.closePath();
+      ctx.restore();
     }
   };
 
@@ -84,7 +88,7 @@ const RulerItem = (props: IProps) => {
       renderRulerH();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [direction]);
+  }, [direction, size]);
 
   const handleClick = (e: React.MouseEvent) => {
     onClick &&
