@@ -8,6 +8,6 @@ export interface LineItem extends Direction {
   value: number;
 }
 
-export interface LineDelete extends Direction {
+export interface LineEventData extends Direction {
   index: number;
 }

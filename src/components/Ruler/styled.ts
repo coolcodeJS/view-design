@@ -7,6 +7,7 @@ const PositionWrap = styled('div')({
 const RulerLayerWrap = styled(PositionWrap)({
   width: '100%',
   height: '100%',
+  overflow: 'hidden',
 });
 
 const HRulerWrap = styled(PositionWrap)({
@@ -28,7 +29,8 @@ const ShowBtn = styled(PositionWrap)({
 
 const Indicator = styled(PositionWrap)({
   top: 0,
-  border: '1px solid red',
+  width: '2px',
+  backgroundColor: 'red',
   pointerEvents: 'none',
 });
 

@@ -3,7 +3,7 @@ import { styled } from '@mui/system';
 
 const LineBox = styled('div')({
   position: 'absolute',
-  border: '1px solid red',
+  backgroundColor: 'red',
   zIndex: 7,
   cursor: 'move',
   '&:hover': {
@@ -28,6 +28,8 @@ const LineToolTip = styled('div')({
 const DeleteBtn = styled('div')({
   display: 'none',
   backgroundColor: 'blue',
+  color: 'red',
+  cursor: 'pointer',
   zIndex: 7,
 });
 
