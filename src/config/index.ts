@@ -2,7 +2,8 @@ import isMobile from '@/utils/is-mobile';
 
 import type { Notifications } from './types';
 
-const title = 'React PWA';
+// 页面标题
+const title = 'View Design';
 
 const email = 'auther-email@gmail.com';
 

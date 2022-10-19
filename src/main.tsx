@@ -1,5 +1,8 @@
 import welcome from '@/utils/welcome';
 
+// 重置样式
+import './styles/index.css';
+
 // Root contains the main dependencies and providers of the base app
 //  - React, ReactDom, RecoilRoot, HelmetProvider, ThemeProvider, MUI-core)
 // App contains the main structure of the base app

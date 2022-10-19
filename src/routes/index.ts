@@ -39,6 +39,12 @@ const routes: Routes = {
     title: 'Page 4',
     icon: BugReportIcon,
   },
+  [Pages.Design]: {
+    component: asyncComponentLoader(() => import('@/pages/Design')),
+    path: '/design',
+    title: 'Design',
+    icon: BugReportIcon,
+  },
   [Pages.NotFound]: {
     component: asyncComponentLoader(() => import('@/pages/NotFound')),
     path: '*',
