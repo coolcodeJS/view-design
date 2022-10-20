@@ -13,12 +13,12 @@ function ModeButton() {
   return (
     <Tooltip title={themeMode === 'dark' ? t['theme.toDark'] : t['theme.toLight']}>
       {/* 这个辣鸡，不知道为什么一定要用一个标签在包裹一下，不然会报错 */}
-      <div>
+      <span>
         <IconButton
           icon={themeMode !== 'dark' ? <Brightness2Icon /> : <BrightnessHighIcon />}
           onClick={toggle}
         />
-      </div>
+      </span>
     </Tooltip>
   );
 }

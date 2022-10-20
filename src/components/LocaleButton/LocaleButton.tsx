@@ -26,15 +26,7 @@ function LocaleButton() {
   return (
     <>
       <IconButton icon={<LanguageIcon />} onClick={handleClick} />
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         <MenuItem onClick={() => handleSelect('zh-CN')}>中文</MenuItem>
         <MenuItem onClick={() => handleSelect('en-US')}>English</MenuItem>
       </Menu>
