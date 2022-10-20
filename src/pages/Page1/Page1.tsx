@@ -3,6 +3,7 @@ import Typography from '@mui/material/Typography';
 import Meta from '@/components/Meta';
 import { FullSizeCenteredFlexBox } from '@/components/styled';
 import ModeButton from '@/components/ModeButton';
+import LocaleButton from '@/components/LocaleButton';
 
 const Page1 = () => {
   return (
@@ -11,6 +12,7 @@ const Page1 = () => {
       <FullSizeCenteredFlexBox>
         <Typography variant="h3">Page 1</Typography>
         <ModeButton />
+        <LocaleButton />
       </FullSizeCenteredFlexBox>
     </>
   );
